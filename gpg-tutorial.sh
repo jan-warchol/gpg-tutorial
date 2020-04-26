@@ -38,5 +38,22 @@ echo
 # Show key. E=encryption, S=signing, C=certification, A=authentication
 # (see https://unix.stackexchange.com/a/230859)
 gpg --list-keys $KEY_ID
+
+# For some reason apart from IDs there are also keygrips
+gpg --list-keys --with-keygrip $KEY_ID
+
+# Here you can see actual key files, named after keygrips
+ls $GNUPGHOME/private-keys-v1.d/*.key
 echo
 
+# Create an ASCII-encoded message encrypted with the new key
+echo test message | gpg -a -e -r tester@example.com | tee $GNUPGHOME/test-msg.asc
+echo
+
+# Decrypt the message (it will prompt you for key passphrase)
+gpg -d $GNUPGHOME/test-msg.asc
+echo
+# Note the ID in the message above. Does it match your key?
+
+# show subkey fingerprints
+gpg --list-keys --with-subkey-fingerprint $KEY_ID
