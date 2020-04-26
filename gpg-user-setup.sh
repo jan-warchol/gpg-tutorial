@@ -6,12 +6,23 @@ echo -n "This script was tested with GPG 2.2.4. Your version: "
 gpg --version | grep "gpg.*[1-9]\.[0-9]\."
 echo
 
-# Use a dedicated directory for testing, don't mess with ~/.gnupg
-export GNUPGHOME="$HOME/gpg-test"
+# Parse arguments and construct user parameters
+[ $# -lt 1 ] && echo "Missing argument: user name to generate" && exit 1
+USER_NAME="$1"
+NAME_SLUG="$(echo $USER_NAME | sed -E s/[^a-zA-Z0-9]+/-/g | tr A-Z a-z )"
+USER_EMAIL="${2:-$NAME_SLUG@example.com}"
+USER_PASS="I am $USER_NAME"
+
+# Setup a dedicated directory for testing, don't mess with ~/.gnupg
+BASE_DIR="$(dirname $(readlink --canonicalize "$0"))"
+GNUPGHOME="$BASE_DIR/$USER_NAME"
+LOG_FILE="$GNUPGHOME/key-gen.log"
 mkdir -p -m 700 $GNUPGHOME
-LOG_FILE="$GNUPGHOME/gpg-key-test.log"
+export GNUPGHOME
 # end of initialization -------------------------------------
 
+
+if [ -e "$LOG_FILE" ]; then echo "Everything already created."; exit; fi
 
 echo Generating new key:
 # Log to a file for later reference (e.g. to get ID after script finished).
@@ -21,9 +32,9 @@ gpg --batch --generate-key --logger-file $LOG_FILE <<EOF
   Key-Length: 1024
   Subkey-Type: default
   Subkey-Length: 1024
-  Name-Real: Test User
-  Name-Email: tester@example.com
-  Passphrase: weakpass
+  Name-Real: $USER_NAME
+  Name-Email: $USER_EMAIL
+  Passphrase: $USER_PASS
   Expire-Date: 1w
 EOF
 tail -2 $LOG_FILE
@@ -47,7 +58,7 @@ ls $GNUPGHOME/private-keys-v1.d/*.key
 echo
 
 # Create an ASCII-encoded message encrypted with the new key
-echo test message | gpg -a -e -r tester@example.com | tee $GNUPGHOME/test-msg.asc
+echo test message | gpg -a -e -r $USER_EMAIL | tee $GNUPGHOME/test-msg.asc
 echo
 
 # Decrypt the message (it will prompt you for key passphrase)
