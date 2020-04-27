@@ -26,66 +26,62 @@ bob_does echo "Hi Alice, Bob here." > msg-to-alice
 
 # He gets Alice's public key
 alice_does \
-gpg --armor --export alice@example.com > alice.pub
+  gpg --armor --export alice@example.com > alice.pub
 bob_does \
-gpg --import alice.pub
+  gpg --import alice.pub
 
 # Note that Alice's key is marked "unknown" (it's not verified)
-bob_does \
-gpg --list-keys | highlight "unknown"
-
 # Because of that trying to encrypt with it will show a warning
 bob_does \
-gpg --armor --encrypt --recipient alice@example.com msg-to-alice
+  gpg --list-keys | highlight "unknown"
+bob_does \
+  gpg --armor --encrypt --recipient alice@example.com msg-to-alice
 
 # Alice's key is self-signed - that signature doesn't prove anything
 bob_does \
-gpg --check-signatures alice@example.com | highlight "sig.*Alice"
+  gpg --check-signatures alice@example.com | highlight "  Alice"
 
 # Alice tells her key fingerprint to Bob (in person or in other really secure way)
-alice_does \
-gpg --fingerprint alice@example.com | hi_fingerprint
-
 # Bob verifies the fingerprint and, if it matches, signs the key with his own key
 # (confirming this key really belongs to Alice)
+alice_does \
+  gpg --fingerprint alice@example.com | hi_fingerprint
 bob_does \
-gpg --sign-key alice@example.com
+  gpg --sign-key alice@example.com
 
-# Now Alice's key is marked as verified
+# Now Alice's key is marked as verified and encryption will work without warning
 bob_does \
-gpg --list-keys alice@example.com | highlight "full"
-
-# And encryption will work without warning
+  gpg --list-keys alice@example.com | highlight "full"
 bob_does \
-gpg -a -e -r alice@example.com msg-to-alice
+  gpg -a -e -r alice@example.com msg-to-alice
 cat msg-to-alice.asc; echo
 
 # And Alice is able to decrypt the message
 alice_does \
-gpg -d msg-to-alice.asc
+  gpg --decrypt msg-to-alice.asc
 
 # Now Alice's key is signed by Bob
 bob_does \
-gpg --check-signatures alice@example.com | highlight "bob@example.com"
+  gpg --check-signatures alice@example.com | highlight "Bob"
 
 # Bob exports Alice's key with his signature and gives it to Alice
 bob_does \
-gpg --armor --export alice@example.com > alice-signed.pub
+  gpg --armor --export alice@example.com > alice-signed.pub
 
 # Alice imports Bob's signature
 alice_does \
-gpg --import alice-signed.pub
+  gpg --import alice-signed.pub
 
 # Alice has Bob's signature, but doesn't have his key to check it
 alice_does \
-gpg --check-signatures alice@example.com | highlight "signature not checked"
+  gpg --check-signatures alice@example.com | highlight "signature not checked"
 
 bob_does \
-gpg --armor --export bob@example.com > bob.pub
+  gpg --armor --export bob@example.com > bob.pub
 
 alice_does \
-gpg --import bob.pub
+  gpg --import bob.pub
 
 # Now Alice can see her key is verified by Bob
 alice_does \
-gpg --check-signatures alice@example.com | highlight "bob@example.com"
+  gpg --check-signatures alice@example.com | highlight "Bob"
