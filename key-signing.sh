@@ -1,70 +1,73 @@
 ./gpg-user-setup.sh Alice
 ./gpg-user-setup.sh Bob
 
-GNUPGHOME=Alice \
-gpg --armor --export alice@example.com > alice.pub
+# helpers for showing commands (on stderr to avoid mixing with actual output)
+alice_does() {
+  echo -e "\e[1;37m> Alice runs:  $@ \e[0m" >&2
+  eval "GNUPGHOME=Alice $@"
+  echo "" >&2
+}
+bob_does() {
+  echo -e "\e[1;37m> Bob runs:  $@ \e[0m" >&2
+  eval "GNUPGHOME=Bob $@"
+  echo "" >&2
+}
 
-GNUPGHOME=Bob \
+alice_does \
+gpg --armor --export alice@example.com > alice.pub
+ll alice.pub
+
+bob_does \
 gpg --import alice.pub
-echo
 
 # Note that Alice's key is marked "unknown"
-GNUPGHOME=Bob \
+bob_does \
 gpg --list-keys
 
 # encrypting will show a warning because Alice's key needs to be verified
 echo msg from Bob to Alice | GNUPGHOME=Bob gpg -a -e -r alice@example.com | tee bob-to-alice.asc
-echo
 
 # The only signature is Alice's own, but we don't
-GNUPGHOME=Bob \
+bob_does \
 gpg --check-signatures alice@example.com
-echo
 
 # Alice tells her key fingerprint to Bob
-GNUPGHOME=Alice \
+alice_does \
 gpg --fingerprint alice@example.com
 
 # Bob signs the key verifying fingerprint with what Alice said
-GNUPGHOME=Bob \
+bob_does \
 gpg --sign-key alice@example.com
 
 # Now encryption should work
 echo msg from Bob to Alice | GNUPGHOME=Bob gpg -a -e -r alice@example.com | tee bob-to-alice.asc
-echo
 
 # And Alice is able to decrypt the message
-GNUPGHOME=Alice \
+alice_does \
 gpg -d bob-to-alice.asc
-echo
 
 # Now Alice's key is signed by Bob
-GNUPGHOME=Bob \
+bob_does \
 gpg --check-signatures alice@example.com
-echo
 
 # Bob exports Alice's key with his signature and gives it to Alice
-GNUPGHOME=Bob \
+bob_does \
 gpg --armor --export alice@example.com > alice-signed.pub
 
 # Alice imports Bob's signature
-GNUPGHOME=Alice \
+alice_does \
 gpg --import alice-signed.pub
-echo
 
 # Alice has Bob's signature, but doesn't have his key to check it
-GNUPGHOME=Alice \
+alice_does \
 gpg --check-signatures alice@example.com
-echo
 
-GNUPGHOME=Bob \
+bob_does \
 gpg --armor --export bob@example.com > bob.pub
 
-GNUPGHOME=Alice \
+alice_does \
 gpg --import bob.pub
-echo
 
 # Now Alice can see her key is verified by Bob
-GNUPGHOME=Alice \
+alice_does \
 gpg --check-signatures alice@example.com
-echo
