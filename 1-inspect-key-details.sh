@@ -8,13 +8,11 @@ echo -n "This script was tested with GPG 2.2.4. Your version: "
 gpg --version | grep "gpg.*[1-9]\.[0-9]\."
 echo
 
-# helper to show nicely formatted command (use stderr to separate from actual output)
-run() { echo -e "\e[1;37m>>> $@ \e[0m" >&2; eval "$@"; echo "" >&2; }
-
 # setup test identity and get key id
 ./setup-gpg-user.sh key-test
 read KEY_ID < key-test/key-id
 export GNUPGHOME=key-test
+source utils.sh
 
 # Show key. E=encryption, S=signing, C=certification, A=authentication
 # (see https://unix.stackexchange.com/a/230859)
