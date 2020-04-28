@@ -1,5 +1,5 @@
-./gpg-user-setup.sh Alice
-./gpg-user-setup.sh Bob
+./setup-gpg-user.sh Alice
+./setup-gpg-user.sh Bob
 
 # helpers for displaying commands (on stderr to avoid mixing with actual output)
 alice_does() {
