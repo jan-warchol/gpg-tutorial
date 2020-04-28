@@ -1,8 +1,7 @@
 #!/bin/bash
 
-./setup-gpg-user.sh Alice
-./setup-gpg-user.sh Bob
-
+./setup-gpg-user.sh Alice 1w
+./setup-gpg-user.sh Bob 3w
 source utils.sh
 
 # Bob writes a message to Alice and he wants to encrypt it

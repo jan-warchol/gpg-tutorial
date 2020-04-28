@@ -1,7 +1,6 @@
 #!/bin/bash
 
-./setup-gpg-user.sh Eve
-
+./setup-gpg-user.sh Eve 5w
 source utils.sh
 
 # Eve exports her public key and puts it on her website.

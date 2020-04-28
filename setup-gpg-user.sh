@@ -4,8 +4,9 @@
 [ $# -lt 1 ] && echo "Missing argument: user name to generate" && exit 1
 USER_NAME="$1"
 NAME_SLUG="$(echo $USER_NAME | sed -E s/[^a-zA-Z0-9]+/-/g | tr A-Z a-z )"
-USER_EMAIL="${2:-$NAME_SLUG@example.com}"
+USER_EMAIL="$NAME_SLUG@example.com"
 USER_PASS="I am $USER_NAME"
+KEY_EXPIRY="${2:-1w}"
 
 # Setup a dedicated directory for testing, don't mess with ~/.gnupg
 BASE_DIR="$(dirname $(readlink --canonicalize "$0"))"
@@ -31,7 +32,7 @@ gpg --batch --generate-key --logger-file $LOG_FILE <<EOF
   Name-Real: $USER_NAME
   Name-Email: $USER_EMAIL
   Passphrase: $USER_PASS
-  Expire-Date: 1w
+  Expire-Date: $KEY_EXPIRY
 EOF
 cat $LOG_FILE
 echo
