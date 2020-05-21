@@ -1,7 +1,8 @@
 #!/bin/bash
 
 # Parse arguments and construct user parameters
-[ $# -lt 1 ] && echo "Missing argument: user name to generate" && exit 1
+[ $# -lt 1 ] && echo "Usage: $0 <user name> [<key valid for>]" && exit 1
+
 USER_NAME="$1"
 NAME_SLUG="$(echo $USER_NAME | sed -E s/[^a-zA-Z0-9]+/-/g | tr A-Z a-z )"
 USER_EMAIL="$NAME_SLUG@example.com"

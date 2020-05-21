@@ -21,12 +21,6 @@ eve_does() {
   echo "" >&2
 }
 
-dan_does() {
-  echo -e "\e[1;37m> Dan runs:  $@ \e[0m" >&2
-  eval "GNUPGHOME=Dan $@"
-  echo "" >&2
-}
-
 # helpers for visually marking important parts of output
 highlight() {
   sed -E "s/($@)/[1;33m\1[0m/g"
