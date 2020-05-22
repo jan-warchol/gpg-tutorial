@@ -2,30 +2,33 @@ Learn GPG by doing
 ------------------
 
 This tutorial will walk you through typical GPG workflow: generating, signing,
-trusting, renewing and backing up keys. Instead of long explanations it just
-shows what happens in practice on test data.
+trusting, backing up and renewing keys. Instead of long explanations it just
+shows what happens in practice on test data - without affecting your real
+keyring (which is stored by default in `~/.gnupg`).
 
 **Important:** older GPG versions behave significantly different and use
-different formats for storing data. This tutorial was tested with GPG
-**2.2.4**; you can check your version using `gpg --version`.
+different storage formats. This tutorial was tested with GPG **2.2.4**;
+you can check yours using `gpg --version`.
 
-### How this works
+### How to use this
 
-Setting environment variable `GNUPGHOME` tells GPG to use a different directory
-for the data, allowing us to experiment safely without affecting your real
-keyring (stored by default in `~/.gnupg`).
+We will pretend to be two users: Alice and Bob.
 
-### Usage
+1.  Open two terminal windows, one for Alice and one for Bob, and navigate to
+    this directory in both.
 
-Running `./setup-gpg-user John` will create a GPG folder named `John` and
-generate there a key with UID `John`, email `john@example.com` and passphrase
-`I am John`. To work with this keyring, run `export GNUPGHOME=John`.
+1.  Create keyrings for them:
 
-The recommended way of going through this tutorial is to retype (or copy-paste)
-the commands from each script into your terminal. (You can also execute these
-scripts, but this will run everything at once.) Note: `run`, `alice_runs`,
-`bob_runs` are simple wrappers for displaying the command before its output
-(and setting `GNUPGHOME` appropriately).
+        ./setup-gpg-user.sh Alice 1w
+        ./setup-gpg-user.sh Bob 3w
 
-In exercises simulating multiple users, I suggest opening separate terminal for
-each user, so that you don't have to change `GNUPGHOME` all the time.
+1.  Go through the exercise files in order, retyping (or copy-pasting) the
+    commands from each script into appropriate terminal. For example, if the
+    command is
+
+        bob_runs  gpg --import alice.pub
+
+    then you should run `gpg --import alice.pub` in Bob's terminal.
+
+Note that you can omit the `| highlight ...` parts - they are only for visual aid.
+You can also execute the whole script, but this will run everything at once.

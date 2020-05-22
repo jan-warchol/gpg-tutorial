@@ -1,12 +1,10 @@
 #!/bin/bash
 
 # Open two terminals - one for Alice:
-./setup-gpg-user.sh Alice 1w
 source utils.sh
 export GNUPGHOME=Alice
 
 # ...and one for Bob:
-./setup-gpg-user.sh Bob 3w
 source utils.sh
 export GNUPGHOME=Bob
 

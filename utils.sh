@@ -21,6 +21,11 @@ eve_runs() {
   echo "" >&2
 }
 
+# for simulating key expiry
+future_gpg(){
+  gpg --faked-system-time $(date -d "+2 weeks" +%s) "$@"
+}
+
 # helper for visually marking important parts of output
 highlight() {
   sed -E "s/($@)/[1;33m\1[0m/g"
