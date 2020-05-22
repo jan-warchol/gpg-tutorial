@@ -3,19 +3,19 @@ run() {
   echo -e "\e[1;37m>>> $@ \e[0m" >&2; eval "$@"; echo "" >&2;
 }
 
-alice_does() {
+alice_runs() {
   echo -e "\e[1;37m> Alice runs:  $@ \e[0m" >&2
   eval "GNUPGHOME=Alice $@"
   echo "" >&2
 }
 
-bob_does() {
+bob_runs() {
   echo -e "\e[1;37m> Bob runs:  $@ \e[0m" >&2
   eval "GNUPGHOME=Bob $@"
   echo "" >&2
 }
 
-eve_does() {
+eve_runs() {
   echo -e "\e[1;37m> Eve runs:  $@ \e[0m" >&2
   eval "GNUPGHOME=Eve $@"
   echo "" >&2

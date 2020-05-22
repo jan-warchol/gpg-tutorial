@@ -23,8 +23,8 @@ generate there a key with UID `John`, email `john@example.com` and passphrase
 
 The recommended way of going through this tutorial is to retype (or copy-paste)
 the commands from each script into your terminal. (You can also execute these
-scripts, but this will run everything at once.) Note: `run`, `alice_does`,
-`bob_does` are simple wrappers for displaying the command before its output
+scripts, but this will run everything at once.) Note: `run`, `alice_runs`,
+`bob_runs` are simple wrappers for displaying the command before its output
 (and setting `GNUPGHOME` appropriately).
 
 In exercises simulating multiple users, I suggest opening separate terminal for
