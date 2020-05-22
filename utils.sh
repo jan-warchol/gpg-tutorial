@@ -21,11 +21,10 @@ eve_does() {
   echo "" >&2
 }
 
-# helpers for visually marking important parts of output
+# helper for visually marking important parts of output
 highlight() {
   sed -E "s/($@)/[1;33m\1[0m/g"
 }
 
-hi_fingerprint() {
-  sed -E "s/([0-9A-F ]{16,})/[1;33m\1[0m/g"
-}
+# show current value of GPG home in bold yellow
+export PS1="GNUPGHOME=\e[33;1m\$GNUPGHOME\e[0m $PS1"
