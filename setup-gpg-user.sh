@@ -48,3 +48,4 @@ echo -e "Generated key with ID \e[1;37m$KEY_ID\e[0m"
 echo -e "and passphrase \e[1;37m$USER_PASS\e[0m."
 echo Writing down key ID to $GNUPGHOME/key-id.
 echo $KEY_ID > "$GNUPGHOME/key-id"
+gpg --export $USER_EMAIL > $NAME_SLUG.pub

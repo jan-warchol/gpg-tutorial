@@ -30,5 +30,6 @@ alice_runs  future_gpg --edit-key alice@example.com addkey
 alice_runs  future_gpg --batch --edit-key alice@example.com check
 alice_runs  future_gpg --armor --export alice@example.com > alice-new-subkey.pub
 bob_runs  future_gpg --import alice-new-subkey.pub
-bob_runs  future_gpg -a -e -r alice@example.com new-msg-to-alice
-cat new-msg-to-alice.asc
+bob_runs  future_gpg -a -e -s -r alice@example.com new-msg-to-alice
+cat new-msg-to-alice.asc; echo
+alice_runs  future_gpg -d new-msg-to-alice.asc
