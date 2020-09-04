@@ -1,5 +1,8 @@
 #!/bin/bash
 
+./setup-gpg-user.sh Alice 1w
+./setup-gpg-user.sh Bob 3w
+
 # Open two terminals - one for Alice:
 source utils.sh
 export GNUPGHOME=Alice

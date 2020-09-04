@@ -10,7 +10,8 @@ USER_PASS="I am $USER_NAME"
 KEY_EXPIRY="${2:-1w}"
 
 # Setup a dedicated directory for testing, don't mess with ~/.gnupg
-BASE_DIR="$(dirname $(readlink --canonicalize "$0"))"
+# BASE_DIR="$(dirname $(readlink --canonicalize "$0"))"
+BASE_DIR="$(pwd)"
 GNUPGHOME="$BASE_DIR/$USER_NAME"
 LOG_FILE="$GNUPGHOME/tutorial-setup.log"
 mkdir -p -m 700 "$GNUPGHOME"
