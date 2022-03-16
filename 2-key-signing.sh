@@ -12,6 +12,7 @@ bob_runs  gpg --sign-key alice@example.com
 bob_runs  gpg --list-keys alice@example.com  | highlight "full"
 # And encryption works without warning
 bob_runs  gpg -a -e -s -r alice@example.com msg-to-alice
+# Here you can see the encrypted message
 cat msg-to-alice.asc; echo
 
 # Alice can read the message
