@@ -6,7 +6,7 @@
 USER_NAME="$1"
 NAME_SLUG="$(echo $USER_NAME | sed -E s/[^a-zA-Z0-9]+/-/g | tr A-Z a-z )"
 USER_EMAIL="$NAME_SLUG@example.com"
-USER_PASS="I am $USER_NAME"
+USER_PASS="$USER_NAME"
 KEY_EXPIRY="${2:-1w}"
 
 # Setup a dedicated directory for testing, don't mess with ~/.gnupg
