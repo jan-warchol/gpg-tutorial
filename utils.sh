@@ -32,7 +32,7 @@ future_gpg(){
 
 # helper for visually marking important parts of output
 highlight() {
-  sed -E "s/($@)/[1;33m\1[0m/g"
+  sed -E "s/($@)/[1;33m\1[0m/gi"
 }
 
 # show current value of GPG home in bold yellow
