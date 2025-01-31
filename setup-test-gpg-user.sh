@@ -18,14 +18,15 @@ GNUPGHOME="$BASE_DIR/$USER_NAME"
 LOG_FILE="$GNUPGHOME/tutorial-setup.log"
 mkdir -p -m 700 "$GNUPGHOME"
 export GNUPGHOME
-echo -e "GPG data belonging to $USER_NAME will be stored in ${bold}${GNUPGHOME}${reset}".
 
 # Only run actual key generation if it wasn't done before
 if [ -e "$LOG_FILE" ]; then
   echo "GPG home for $USER_NAME already exists, nothing to do."; echo; exit;
 fi
 
-echo; echo "Generating new key for $USER_NAME <$USER_EMAIL>:"
+echo -e "GPG data belonging to $USER_NAME will be stored in ${bold}${GNUPGHOME}${reset}".
+echo
+echo "Generating new key for $USER_NAME <$USER_EMAIL> (this may take some time):"
 # Log to a file for later reference (e.g. to get ID after script finished).
 # Note: keys are short because performance > security for testing purposes
 gpg --batch --generate-key --logger-file "$LOG_FILE" <<EOF
@@ -44,7 +45,8 @@ echo
 KEY_ID=$(tail -1 "$LOG_FILE" | grep -Eo "[0-9A-F]{40}")
 
 # Trigger database maintenance (could be confusing if it appears on its own)
-gpg --check-trustdb; echo
+gpg --check-trustdb
+echo
 
 # Cache some information for other scripts
 echo -e "Generated key with ID ${bold}${KEY_ID}${reset}"
