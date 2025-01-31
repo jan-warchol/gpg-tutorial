@@ -6,7 +6,7 @@
 USER_NAME="$1"
 NAME_SLUG="$(echo $USER_NAME | sed -E s/[^a-zA-Z0-9]+/-/g | tr A-Z a-z )"
 USER_EMAIL="$NAME_SLUG@example.com"
-USER_PASS="$USER_NAME"
+USER_PASS="$(echo $USER_NAME | tr A-Z a-z)"
 KEY_EXPIRY="${2:-1w}"
 
 bold="\e[1;97m"
