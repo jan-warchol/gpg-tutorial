@@ -13,10 +13,8 @@ source utils.sh
 
 # By default export option exports just the public key.
 gpg -a --export Alice > alice.pub
-
 # Export both private and public keys (primary and subkeys).
 gpg -a --export-secret-keys Alice > alice-private.asc
-
 # Export only private subkeys and all public keys (primary and subkeys).
 gpg -a --export-secret-subkeys Alice > alice-subkeys.asc
 
