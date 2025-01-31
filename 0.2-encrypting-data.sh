@@ -1,9 +1,8 @@
 #!/bin/bash
 
-source utils.sh
-# create test identity
 ./setup-test-gpg-user.sh Alice
 export GNUPGHOME=Alice
+source utils.sh
 
 
 # Create a file with sample data.
@@ -21,7 +20,7 @@ rm -f example.gpg example.asc example_signed.asc
 log_and_run  gpg --encrypt --recipient Alice example
 log_and_run  file example.gpg
 
-# Encrypt in an ASCII-armored format (short option: -a)
+# Encrypt in an ASCII-encoded ("armored") format (short option: -a)
 log_and_run  gpg --armor -e -r Alice example
 log_and_run  file example.asc
 log_and_run  cat example.asc

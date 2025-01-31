@@ -4,10 +4,10 @@
 # Check your version; you may have to use `gpg2` command to get GPG v2
 gpg --version | grep "gpg.*[1-9]\.[0-9]\..*"; echo
 
-source utils.sh
 # Create test identity
 ./setup-test-gpg-user.sh Alice
 export GNUPGHOME=Alice
+source utils.sh
 
 
 # View all known keys (yours and other people). Short option: -k
