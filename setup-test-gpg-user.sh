@@ -9,13 +9,16 @@ USER_EMAIL="$NAME_SLUG@example.com"
 USER_PASS="$USER_NAME"
 KEY_EXPIRY="${2:-1w}"
 
+bold="\e[1;97m"
+reset="\e[0m"
+
 # Setup a dedicated directory for testing, don't mess with ~/.gnupg
 BASE_DIR="$(dirname $(readlink --canonicalize "$0"))"
 GNUPGHOME="$BASE_DIR/$USER_NAME"
 LOG_FILE="$GNUPGHOME/tutorial-setup.log"
 mkdir -p -m 700 "$GNUPGHOME"
 export GNUPGHOME
-echo -e "GPG data belonging to $USER_NAME will be stored in \e[1;37m$GNUPGHOME\e[0m".
+echo -e "GPG data belonging to $USER_NAME will be stored in ${bold}${GNUPGHOME}${reset}".
 
 # Only run actual key generation if it wasn't done before
 if [ -e "$LOG_FILE" ]; then
@@ -44,8 +47,8 @@ KEY_ID=$(tail -1 "$LOG_FILE" | grep -Eo "[0-9A-F]{40}")
 gpg --check-trustdb; echo
 
 # Cache some information for other scripts
-echo -e "Generated key with ID \e[1;37m$KEY_ID\e[0m"
-echo -e "and passphrase \"\e[1;37m$USER_PASS\e[0m\"."
+echo -e "Generated key with ID ${bold}${KEY_ID}${reset}"
+echo -e "and passphrase \"${bold}${USER_PASS}${reset}\"."
 echo Writing down key ID to $GNUPGHOME/key-id.
 echo $KEY_ID > "$GNUPGHOME/key-id"
 gpg --export $USER_EMAIL > $NAME_SLUG.pub

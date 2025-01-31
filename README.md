@@ -19,8 +19,8 @@ We will pretend to be two users: Alice and Bob.
 
 1.  Create keyrings for them:
 
-        ./setup-gpg-user.sh Alice 1w
-        ./setup-gpg-user.sh Bob 3w
+        ./setup-test-gpg-user.sh Alice 1w
+        ./setup-test-gpg-user.sh Bob 3w
 
 1.  Go through the exercise files in order, retyping (or copy-pasting) the
     commands from each script into appropriate terminal. For example, if the

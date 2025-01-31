@@ -1,6 +1,6 @@
 #!/bin/bash
 
-./setup-gpg-user.sh Eve 5w
+./setup-test-gpg-user.sh Eve 5w
 source utils.sh
 
 # Eve puts her public key on a website (or public keyserver).
