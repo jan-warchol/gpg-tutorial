@@ -35,7 +35,7 @@ target_dir=import
 mkdir -pm 700 $target_dir $backup_dir
 mkdir -pm 700 $target_dir/private-keys-v1.d/ $target_dir/openpgp-revocs.d/
 
-# Export private keys, public keys, revocation certs and trust settings
+# Exporting private keys, public keys, revocation certs and trust settings
 export GNUPGHOME=$source_dir
 cp -a $source_dir/private-keys-v1.d $backup_dir/private-keys-v1.d
 cp -a $source_dir/openpgp-revocs.d $backup_dir/openpgp-revocs.d
